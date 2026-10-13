@@ -1,9 +1,18 @@
 from pathlib import Path
 import os
 BASE_DIR=Path(__file__).resolve().parent.parent
-SECRET_KEY="local-demo-key-change-before-deployment"
-DEBUG=True
-ALLOWED_HOSTS=["127.0.0.1","localhost"]
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "local-demo-key-change-before-deployment"
+)
+
+DEBUG = os.environ.get("DEBUG", "True").lower() == "true"
+
+ALLOWED_HOSTS = os.environ.get(
+    "ALLOWED_HOSTS",
+    "127.0.0.1,localhost"
+).split(",")
+#ALLOWED_HOSTS=["127.0.0.1","localhost"]
 INSTALLED_APPS=["django.contrib.admin","django.contrib.auth","django.contrib.contenttypes","django.contrib.sessions","django.contrib.messages","django.contrib.staticfiles","productivity"]
 MIDDLEWARE=["django.middleware.security.SecurityMiddleware","django.contrib.sessions.middleware.SessionMiddleware","django.middleware.common.CommonMiddleware","django.middleware.csrf.CsrfViewMiddleware","django.contrib.auth.middleware.AuthenticationMiddleware","django.contrib.messages.middleware.MessageMiddleware","django.middleware.clickjacking.XFrameOptionsMiddleware", "whitenoise.middleware.WhiteNoiseMiddleware",]
 ROOT_URLCONF="config.urls"
